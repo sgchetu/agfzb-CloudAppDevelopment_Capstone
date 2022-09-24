@@ -1,11 +1,11 @@
   applications:
-  - name: djangoapp
+  - name: sgc234
     routes:
-      - route: $HOST.$DOMAIN
+      - route: sgc234.au-syd.mybluemix.net
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: sgc234-nginx
     routes:
-      - route: $HOST.$DOMAIN/static
+      - route: sgc234.au-syd.mybluemix.net/static
     memory: 128M
     buildpack: staticfile_buildpack
