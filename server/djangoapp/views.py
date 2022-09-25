@@ -31,32 +31,12 @@ def contact(request):
         return render(request, 'djangoapp/contact.html',context)
 
 # Create a `login_request` view to handle sign in request
-def login_request(request):
-    context = {}
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['psw']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('djangoapp:index')
-        else:
-            return render(request, 'djangoapp/user_login.html', context)
-    else:
-        return render(request, 'djangoapp/user_login.html', context)
-
-# Create a `logout_request` view to handle sign out request
-def logout_request(request):
-    print("Log out the user '{}'".format(request.user.username))
-    logout(request)
-    return redirect('djangoapp:index')
-
-# Create a `registration_request` view to handle sign up request
 def registration_request(request):
     context = {}
     if request.method == 'GET':
-        return render(request, 'djangoapp/registration.html', context)
+        return render(request, 'djangoapp/user_registration_bootstrap.html', context)
     elif request.method == 'POST':
+        # Check if user exists
         username = request.POST['username']
         password = request.POST['psw']
         first_name = request.POST['firstname']
@@ -74,7 +54,28 @@ def registration_request(request):
             return redirect("djangoapp:index")
         else:
             context['message'] = "User already exists."
-            return render(request, 'djangoapp/registration.html', context)
+            return render(request, 'djangoapp/user_registration_bootstrap.html', context)
+
+
+def login_request(request):
+    context = {}
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['psw']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('djangoapp:index')
+        else:
+            context['message'] = "Invalid username or password."
+            return render(request, 'djangoapp/user_login_bootstrap.html', context)
+    else:
+        return render(request, 'djangoapp/user_login_bootstrap.html', context)
+
+
+def logout_request(request):
+    logout(request)
+    return redirect('djangoapp:index')
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
     context = {}
