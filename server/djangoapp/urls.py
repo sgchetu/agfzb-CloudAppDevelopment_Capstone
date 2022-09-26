@@ -4,8 +4,6 @@ from django.conf import settings
 from . import views
 
 app_name = 'djangoapp'
-print("this from urld file, this is the passed id when clicked on a dealer")
-print(id)
 urlpatterns = [
     # path for about view 
     path(route='about/', view=views.about, name='about'),
