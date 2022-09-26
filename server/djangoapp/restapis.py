@@ -9,14 +9,17 @@ import time
 
 def analyze_review_sentiments(text):
     url = "https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/a41d8e30-c09a-4314-8572-51fba1537d14"
-    api_key = "S8Ncd3903aq7KoTo6MJPqi3nrpIvivQuWJdwqmMQifFK"
+    api_key = "prJyG1BZA2DM_G-wNV8RpRsi9W80dOCYmuHN7S0YJpoq"
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)
     response = natural_language_understanding.analyze( text=text+"hello hello hello",features=Features(sentiment=SentimentOptions(targets=[text+"hello hello hello"]))).get_result()
     label=json.dumps(response, indent=2)
     label = response['sentiment']['document']['label']
-
+    print(label)
+    
+    
+    return(label) 
  
 def get_request(url, **kwargs):
     
@@ -114,24 +117,24 @@ def get_dealer_reviews_from_cf(url, **kwargs):
                                    purchase=dealer_review["purchase"],
                                    review=dealer_review["review"])
             print('this is review_obj=',review_obj)
-            #if "id" in dealer_review:
-                #review_obj.id = dealer_review["id"]
-            #if "purchase_date" in dealer_review:
-                #review_obj.purchase_date = dealer_review["purchase_date"]
-            #if "car_make" in dealer_review:
-                #review_obj.car_make = dealer_review["car_make"]
-            #if "car_model" in dealer_review:
-                #review_obj.car_model = dealer_review["car_model"]
-            #if "car_year" in dealer_review:
-                #review_obj.car_year = dealer_review["car_year"]
+            if "id" in dealer_review:
+                review_obj.id = dealer_review["id"]
+            if "purchase_date" in dealer_review:
+                review_obj.purchase_date = dealer_review["purchase_date"]
+            if "car_make" in dealer_review:
+                review_obj.car_make = dealer_review["car_make"]
+            if "car_model" in dealer_review:
+                review_obj.car_model = dealer_review["car_model"]
+            if "car_year" in dealer_review:
+                review_obj.car_year = dealer_review["car_year"]
             
             print("just before calling sentiment analysis")
-            #sentiment = analyze_review_sentiments(review_obj.review)
+            sentiment = analyze_review_sentiments(review_obj.review)
             #print(sentiment)
-            #review_obj.sentiment = sentiment
-            #results.append(review_obj)
+            review_obj.sentiment = sentiment
+            results.append(review_obj)
 
-    return review_obj
+    return results
 
 def post_request(url, payload, **kwargs):
     print(kwargs)
