@@ -4,6 +4,8 @@ from django.conf import settings
 from . import views
 
 app_name = 'djangoapp'
+print("this from urld file, this is the passed id when clicked on a dealer")
+print(id)
 urlpatterns = [
     # path for about view 
     path(route='about/', view=views.about, name='about'),
@@ -18,8 +20,8 @@ urlpatterns = [
 
     # path for add a review view
     # path for dealer reviews view
-    path('dealer_detail/<int:dealer_id>/', views.get_dealer_details, name='get_dealer_details'),
+    path('dealer_detail/<int:id>/', views.get_dealer_details, name='get_dealer_details'),
     # path for add a review view
-    path('add_review/<int:dealer_id>/', views.add_review, name='add_review')
+    path('add_review/<int:id>/', views.add_review, name='add_review')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
