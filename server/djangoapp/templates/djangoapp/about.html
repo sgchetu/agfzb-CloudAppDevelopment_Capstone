@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AboutUs</title>
+    <title>Dealership Review</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -14,20 +14,39 @@
 </head>
 
     <body>
-        <body>
-            <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-                <a class="navbar-brand" href="/djangoapp">Find Best Cars</a>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a style="color: white" class="nav-link" href="/djangoapp/about">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="color: white" class="nav-link" href="/djangoapp/contact">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <a class="navbar-brand" href="#">Find Best Cars</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a style="color: white" class="nav-link" href="/djangoapp/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: white" class="nav-link" href="/djangoapp/contact">Contact Us</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  {% if user.is_authenticated %}
+                  <li>
+                      <a style="color: white" class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                      <a style="color: white" class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                  </li>
+                  {% else %}
+                  <li>
+                      <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                          {% csrf_token %}
+                          <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Username" name="username" >
+                              <input type="password" class="form-control" placeholder="Password" name="psw" >
+                              <button class="btn btn-primary" type="submit">Login</button>
+                              <a style="color: white" class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                          </div>
+                      </form>
+                  </li>
+                  {% endif %}
+              </ul>
+          </div>
+      </nav>    <!--Add a dealer table here -->
     
             <div class="container">
                 <div class="jumbotron">
