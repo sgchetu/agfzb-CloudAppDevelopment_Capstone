@@ -28,8 +28,8 @@
                 <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
                   <li>
-                      <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                      <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                      <a style="color: white" class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                      <a style="color: white" class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                   </li>
                   {% else %}
                   <li>
@@ -39,7 +39,7 @@
                               <input type="text" class="form-control" placeholder="Username" name="username" >
                               <input type="password" class="form-control" placeholder="Password" name="psw" >
                               <button class="btn btn-primary" type="submit">Login</button>
-                              <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                              <a style="color: white" class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
                           </div>
                       </form>
                   </li>
