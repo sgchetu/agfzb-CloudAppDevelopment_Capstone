@@ -96,15 +96,15 @@ def get_dealer_details(request, id):
     if request.method == "GET":
         context = {}
         url = "https://au-syd.functions.appdomain.cloud/api/v1/web/76a45f49-e63d-4b59-ac3e-e32e5ac7ca08/dealership-package/get-dealership"
-        print("just before calling get_dealer_by_id_from_cf")
+        #print("just before calling get_dealer_by_id_from_cf")
         dealer = get_dealer_by_id_from_cf(url, id)
         context["dealer"] = dealer
-        print("After calling get_dealer_by_id_from_cf")
+        #print("After calling get_dealer_by_id_from_cf")
     
         review_url = "https://au-syd.functions.appdomain.cloud/api/v1/web/76a45f49-e63d-4b59-ac3e-e32e5ac7ca08/dealership-package/get-review"
-        #reviews = get_dealer_reviews_from_cf(review_url, id=id)
+        reviews = get_dealer_reviews_from_cf(review_url, id=id)
         #print(reviews)
-        #context["reviews"] = reviews
+        context["reviews"] = reviews
         
         return render(request, 'djangoapp/dealer_details.html', context)
 
