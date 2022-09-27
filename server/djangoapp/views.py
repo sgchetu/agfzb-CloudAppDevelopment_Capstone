@@ -127,13 +127,13 @@ def add_review(request, id):
             return render(request, 'djangoapp/add_review.html', context)
         
         if request.method == "POST":
-            print('enetered post ,method')
+            #print('enetered post ,method')
             review = {}
             review["name"] = request.user.first_name + " " + request.user.last_name
             form = request.POST
             review["dealership"] = id
             review["review"] = form["content"]
-            print('review without purchase date=')
+            #print('review without purchase date=')
             if(form.get("purchasecheck") == "on"):
                 review["purchase"] = True
             else:
@@ -145,8 +145,12 @@ def add_review(request, id):
                 car = CarModel.objects.get(pk=form["car"])
                 review["car_make"] = car.make.name
                 review["car_model"] = car.name
-                #review["car_year"] = car.year
-                review["car_year"] = "2018"
+                car_year = car.year.isoformat()
+                review["car_year"] = car_year
+                #review["car_year"] = datetime.strptime(car.year), "%Y-%m-%d").isoformat()
+
+                #print("this is car year after conversion=",review["car_year"])
+                #print("this is type of car year=",type(review["car_year"]))
                 
             post_url = "https://au-syd.functions.appdomain.cloud/api/v1/web/76a45f49-e63d-4b59-ac3e-e32e5ac7ca08/dealership-package/post-review"
             json_payload = { "review": review }
