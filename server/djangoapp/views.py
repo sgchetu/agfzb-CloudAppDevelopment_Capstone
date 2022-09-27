@@ -114,29 +114,34 @@ def get_dealer_details(request, id):
 # ...
 
 def add_review(request, id):
+    print ('Entered add review. Dealerid==',id)
     if request.user.is_authenticated:
         context = {}
         dealer_url = "https://au-syd.functions.appdomain.cloud/api/v1/web/76a45f49-e63d-4b59-ac3e-e32e5ac7ca08/dealership-package/get-dealership"
         dealer = get_dealer_by_id_from_cf(dealer_url, id)
+        print('got dealer from get_dealer method=',dealer)
         context["dealer"] = dealer
         if request.method == "GET":
             cars = CarModel.objects.all()
             context["cars"] = cars
-            print(context)
             return render(request, 'djangoapp/add_review.html', context)
         
         if request.method == "POST":
+            print('enetered post ,method')
             review = {}
             review["name"] = request.user.first_name + " " + request.user.last_name
             form = request.POST
             review["dealership"] = id
             review["review"] = form["content"]
+            print('review without purchase date=')
             if(form.get("purchasecheck") == "on"):
                 review["purchase"] = True
             else:
                 review["purchase"] = False
             if(review["purchase"]):
-                review["purchase_date"] = datetime.strptime(form.get("purchasedate"), "%m/%d/%Y").isoformat()
+                print('review with purchase date true. This is prchase date from form=',form["purchasedate"])
+                review["purchase_date"] = datetime.strptime(form.get("purchasedate"), "%Y-%m-%d").isoformat()
+                print('this is purchase date after conversion=', review["purchase_date"])
                 car = CarModel.objects.get(pk=form["car"])
                 review["car_make"] = car.make.name
                 review["car_model"] = car.name
@@ -144,7 +149,8 @@ def add_review(request, id):
             post_url = "https://au-syd.functions.appdomain.cloud/api/v1/web/76a45f49-e63d-4b59-ac3e-e32e5ac7ca08/dealership-package/post-review"
             json_payload = { "review": review }
             post_request(post_url, json_payload, id=id)
-            return redirect("djangoapp:dealer_details", id=id)
+            print ('this is jason payload==',json_payload)
+            return redirect("djangoapp:get_dealer_details", id=id)
     else:
         return redirect("/djangoapp/login")
 
