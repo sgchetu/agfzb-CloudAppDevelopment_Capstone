@@ -139,13 +139,15 @@ def add_review(request, id):
             else:
                 review["purchase"] = False
             if(review["purchase"]):
-                print('review with purchase date true. This is prchase date from form=',form["purchasedate"])
+
                 review["purchase_date"] = datetime.strptime(form.get("purchasedate"), "%Y-%m-%d").isoformat()
-                print('this is purchase date after conversion=', review["purchase_date"])
+
                 car = CarModel.objects.get(pk=form["car"])
                 review["car_make"] = car.make.name
                 review["car_model"] = car.name
-                review["car_year"] = car.year
+                #review["car_year"] = car.year
+                review["car_year"] = "2018"
+                
             post_url = "https://au-syd.functions.appdomain.cloud/api/v1/web/76a45f49-e63d-4b59-ac3e-e32e5ac7ca08/dealership-package/post-review"
             json_payload = { "review": review }
             post_request(post_url, json_payload, id=id)

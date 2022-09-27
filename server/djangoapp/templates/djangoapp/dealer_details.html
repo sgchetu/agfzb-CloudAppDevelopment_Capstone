@@ -53,7 +53,7 @@
     {% if reviews %}
         {% if user.is_authenticated %}
             <div style="margin: 10px;">
-                <a class="btn btn-primary" href="{% url 'djangoapp:add_review' dealer.id %}"><b>Write a car review</b></a>
+                <a class="btn btn-primary" href="{% url 'djangoapp:add_review' dealer.id %}"><b>Write a review</b></a>
             </div>
         {% endif %}
         <div class="card-columns">
@@ -83,8 +83,10 @@
 
     {% else %}
         <p></br>There are no reviews for this dealership.</br></p>
-        
-    {% endif %}   
+        <div style="margin: 10px;">
+            <a class="btn btn-primary" href="{% url 'djangoapp:add_review' dealer.id %}"><b>Write a review</b></a>
+        </div>
+{% endif %}   
     
 
 </body>
